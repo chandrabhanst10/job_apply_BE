@@ -55,6 +55,22 @@ export function csrfProtection(req: Request, res: Response, next: NextFunction):
   next(new ForbiddenError("Invalid CSRF token"));
 }
 
+export const authRateLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, message: "Too many authentication attempts. Please try again after 15 minutes." }
+});
+
+export const pairingRateLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, message: "Too many extension pairing attempts. Please try again after 15 minutes." }
+});
+
 export function applySecurity(app: Express): void {
   app.use(helmet());
   app.use(cors({ origin: env.CLIENT_URL, credentials: true }));
@@ -74,3 +90,4 @@ export function applySecurity(app: Express): void {
     })
   );
 }
+

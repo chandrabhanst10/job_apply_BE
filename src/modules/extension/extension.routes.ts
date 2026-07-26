@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { authenticate } from "../../middleware/auth.js";
+import { pairingRateLimiter } from "../../middleware/security.js";
 import {
   generatePairingPin,
   pairWithPin,
@@ -13,7 +14,7 @@ import {
 export const extensionRouter = Router();
 
 // Public extension endpoint to redeem 6-digit PIN for session token
-extensionRouter.post("/pair-with-pin", pairWithPin);
+extensionRouter.post("/pair-with-pin", pairingRateLimiter, pairWithPin);
 
 // Authenticated user endpoints
 extensionRouter.use(authenticate);
