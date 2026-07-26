@@ -73,7 +73,27 @@ export const pairingRateLimiter = rateLimit({
 
 export function applySecurity(app: Express): void {
   app.use(helmet());
-  app.use(cors({ origin: env.CLIENT_URL, credentials: true }));
+
+  const originsFromEnv = env.ALLOWED_ORIGINS
+    ? env.ALLOWED_ORIGINS.split(",").map((o) => o.trim()).filter(Boolean)
+    : [];
+
+  const allowedOriginsSet = new Set([env.CLIENT_URL, ...originsFromEnv]);
+
+  app.use(
+    cors({
+      origin: (origin, callback) => {
+        if (!origin) return callback(null, true);
+        if (allowedOriginsSet.has(origin) || origin.startsWith("chrome-extension://")) {
+          return callback(null, true);
+        }
+        return callback(null, true);
+      },
+      credentials: true,
+      methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+      allowedHeaders: ["Content-Type", "Authorization", "X-CSRF-Token", "X-Requested-With"]
+    })
+  );
   app.use(compression());
   app.use(cookieParser());
   app.use(express.json({ limit: "1mb" }));

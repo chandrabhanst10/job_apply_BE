@@ -9,6 +9,7 @@ const schema = z.object({
   API_PREFIX: z.string().default("/api/v1"),
   APP_URL: z.string().url().default("http://localhost:4000"),
   CLIENT_URL: z.string().url().default("http://localhost:3000"),
+  ALLOWED_ORIGINS: z.string().optional().default("http://localhost:3000,http://localhost:5173"),
   MONGO_URI: z.string().min(1),
   REDIS_URL: z.string().optional(),
   JWT_ACCESS_SECRET: z.string().min(32),
