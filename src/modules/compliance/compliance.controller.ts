@@ -86,7 +86,7 @@ export async function handleRevokeUserSession(req: Request, res: Response): Prom
     res.status(HttpStatus.UNAUTHORIZED).json({ success: false, message: "Unauthorized", data: null, errors: [] });
     return;
   }
-  const { sessionId } = req.params;
+  const sessionId = Array.isArray(req.params.sessionId) ? req.params.sessionId[0] : req.params.sessionId;
   const revoked = await complianceService.revokeSession(userId, sessionId, req.ip);
   sendSuccess(res, HttpStatus.OK, revoked ? "Session revoked successfully" : "Session not found", { revoked });
 }

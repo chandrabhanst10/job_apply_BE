@@ -22,7 +22,7 @@ export const getUsers = asyncHandler(async (req, res) => {
 });
 
 export const setUserStatus = asyncHandler(async (req, res) => {
-  const { id } = req.params;
+  const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
   const { isSuspended } = req.body;
   if (typeof isSuspended !== "boolean") {
     throw new BadRequestError("isSuspended must be a boolean");
@@ -32,7 +32,7 @@ export const setUserStatus = asyncHandler(async (req, res) => {
 });
 
 export const setUserRole = asyncHandler(async (req, res) => {
-  const { id } = req.params;
+  const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
   const { role } = req.body;
   if (!role || typeof role !== "string") {
     throw new BadRequestError("Valid role string is required");

@@ -5,6 +5,8 @@ import { ResumeModel, type ResumeDocument } from "../../resume/model.js";
 import { AuditLogModel, type AuditLogDocument } from "../../audit/model.js";
 import { DataRequestModel, type DataRequestDocument, type DataRequestType, type DataRequestStatus } from "../compliance.model.js";
 
+export type { DataRequestType, DataRequestStatus };
+
 export interface RecordConsentInput {
   userId: string | Types.ObjectId;
   termsAccepted?: boolean;

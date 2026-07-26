@@ -46,12 +46,12 @@ export class AdminService {
     const result = await listAdminUsers(options);
     const formatted = result.users.map(u => ({
       _id: u._id.toString(),
-      name: u.name,
+      name: u.profile?.name || u.email.split("@")[0],
       email: u.email,
       role: u.role || "user",
       isEmailVerified: u.isEmailVerified,
-      isSuspended: u.isSuspended || false,
-      createdAt: u.createdAt ? u.createdAt.toISOString() : new Date().toISOString()
+      isSuspended: Boolean(u.isDeleted),
+      createdAt: (u as { createdAt?: Date }).createdAt ? (u as { createdAt?: Date }).createdAt!.toISOString() : new Date().toISOString()
     }));
     return { users: formatted, total: result.total, limit: options.limit || 20, skip: options.skip || 0 };
   }
@@ -59,7 +59,7 @@ export class AdminService {
   async setUserStatus(userId: string, isSuspended: boolean) {
     const updated = await updateUserSuspensionStatus(userId, isSuspended);
     if (!updated) throw new Error("User not found");
-    return { _id: updated._id.toString(), isSuspended: updated.isSuspended };
+    return { _id: updated._id.toString(), isSuspended: Boolean(updated.isDeleted) };
   }
 
   async setUserRole(userId: string, role: string) {
