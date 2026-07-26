@@ -1,5 +1,5 @@
 import crypto from "node:crypto";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 export function randomToken(bytes = 32): string {
   return crypto.randomBytes(bytes).toString("hex");

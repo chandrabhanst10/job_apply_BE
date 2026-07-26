@@ -1,5 +1,5 @@
 import mongoose, { Schema, type InferSchemaType, type Model } from "mongoose";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 export const DEFAULT_AI_PROMPT = `Analyze this resume to extract suitable target job titles and locations for automated job applying.
 If the candidate has frontend or backend skills like ReactJS, NodeJS, JavaScript, Python, Java, etc., please extract and list a rich set of 4-6 specific target job titles matching their technical skill sets (e.g., including "React Developer", "ReactJS Developer", "Node JS Developer", "Node.js Developer", "Frontend Developer", "Backend Engineer", "Full Stack Developer" if they have both frontend and backend skills) to give the user more diverse job search opportunities.`;

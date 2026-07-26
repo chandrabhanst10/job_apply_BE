@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { UserModel } from "../model.js";
 import { RefreshTokenModel } from "../refresh-token.model.js";
 
